@@ -1,0 +1,32 @@
+# FROM python:3.9.7-slim-buster
+
+# # install system packages
+# RUN apt-get update \
+#     && apt-get install -y --no-install-recommends build-essential libpq-dev \
+#     && pip install --upgrade pip
+
+# # as user worker
+# RUN adduser worker
+# USER worker
+# ENV PATH="/home/worker/.local/bin:${PATH}"
+# WORKDIR /home/worker/app
+
+# # install pyinstaller & python packages
+# COPY --chown=worker:worker requirements.txt .
+# RUN pip install --user pyinstaller \
+#     && pip install --user -r requirements.txt
+
+# # copy source files and build
+# COPY --chown=worker:worker src src
+# RUN pyinstaller \
+#     --clean \
+#     --distpath . \
+#     --workpath ./build \
+#     --specpath . \
+#     --name app \
+#     -F src/main.py
+
+# # set timezone
+# ENV TZ Asia/Seoul
+
+# CMD ["bash"]
